@@ -9,6 +9,7 @@
 import React, { useEffect } from 'react';
 import type {Node} from 'react';
 import {
+  DeviceEventEmitter,
   SafeAreaView,
   ScrollView,
   StatusBar,
@@ -66,6 +67,13 @@ const App: () => Node = () => {
     .getToken()
     .then(token => {
       return saveTokenToDatabase(token);
+    });
+
+    DeviceEventEmitter.addListener('appInvoked', (data) => {
+      const { route } = data;
+
+      // Using react-navigation library for navigation.
+      console.log('app invoked');
     });
 
     return messaging().onTokenRefresh(token => {
